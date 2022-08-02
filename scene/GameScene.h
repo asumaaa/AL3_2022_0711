@@ -53,17 +53,15 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 
 	//3Dモデル
-	Model* model_ = nullptr;
+	Model* model_[36];
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	WorldTransform worldTransform_[36];
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+	float viewZ = -20;
 
 	const float window_width = 1440;
 	const float window_height = 810;
-
-	//デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

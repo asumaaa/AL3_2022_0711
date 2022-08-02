@@ -6,8 +6,10 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-	delete model_;
-	delete debugCamera_;
+	for (int i = 0; i < 36; i++)
+	{
+		delete model_[i];
+	}
 }
 
 void GameScene::Initialize() {
@@ -16,20 +18,21 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
-	debugCamera_ = new DebugCamera(window_width, window_height);
 
 	//3Dモデルの生成
-	model_ = Model::Create();
+	for (int i = 0; i < 36; i++)
+	{
+		model_[i] = Model::Create();
+		//ワールドトランスフォームの初期化
+		worldTransform_[i].Initialize();
 
-	//ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
+		//座標を変える
+		worldTransform_[i].translation_ += Vector3(4 * (i % 6) - 10, 4  * (i / 6) - 10, 0.0f);
+		worldTransformUpdate(&worldTransform_[i]);
+	}
+
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-
-	Vector3 scale = { 2,2,2 };
-	worldTransform_.scale_ += scale;
-	worldTransformUpdate(&worldTransform_);
-	
 
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
@@ -37,7 +40,17 @@ void GameScene::Initialize() {
 
 void GameScene::Update() 
 {
-	debugCamera_->Update();
+	if (input_->PushKey(DIK_UP))
+	{
+		viewZ += 1;
+	}
+	if (input_->PushKey(DIK_DOWN))
+	{
+		viewZ -= 1;
+	}
+	viewZ = min(viewZ, 6);
+	viewProjection_.eye.z = viewZ;
+	viewProjection_.Initialize();
 }
 
 void GameScene::Draw() {
@@ -66,7 +79,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
+	for (int i = 0; i < 36; i++)
+	{
+		model_[i]->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
