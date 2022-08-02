@@ -7,6 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() 
 {
 	delete model_;
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -15,6 +16,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+	debugCamera_ = new DebugCamera(window_width, window_height);
 
 	//3Dモデルの生成
 	model_ = Model::Create();
@@ -24,11 +26,19 @@ void GameScene::Initialize() {
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+	Vector3 scale = { 2,2,2 };
+	worldTransform_.scale_ += scale;
+	worldTransformUpdate(&worldTransform_);
+	
+
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
 }
 
-void GameScene::Update() {}
+void GameScene::Update() 
+{
+	debugCamera_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -56,7 +66,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

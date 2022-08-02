@@ -9,6 +9,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
+#include "Matrix.h"
 
 /// <summary>
 /// ゲームシーン
@@ -52,11 +54,16 @@ class GameScene {
 
 	//3Dモデル
 	Model* model_ = nullptr;
-
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	const float window_width = 1440;
+	const float window_height = 810;
+
+	//デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
