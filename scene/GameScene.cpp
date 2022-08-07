@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "math.h"
+#define PI 3.141592653589
 
 GameScene::GameScene() {}
 
@@ -89,13 +90,13 @@ void GameScene::Update()
 	}
 
 	//腕足回転
-	r += 0.1;
-	r2 += 0.1;
+	r += 0.02;
+	r2 += 0.02;
 
-	worldTransform_[PartId::kArmL].rotation_.x = sin(r);
-	worldTransform_[PartId::kArmR].rotation_.x = sin(r2);
-	worldTransform_[PartId::kLegL].rotation_.x = sin(r2);
-	worldTransform_[PartId::kLegR].rotation_.x = sin(r);
+	worldTransform_[PartId::kArmL].rotation_.x = sin(r * PI);
+	worldTransform_[PartId::kArmR].rotation_.x = sin(r2 * PI);
+	worldTransform_[PartId::kLegL].rotation_.x = sin(r2 * PI);
+	worldTransform_[PartId::kLegR].rotation_.x = sin(r * PI);
 
 	worldTransformUpdate(&worldTransform_[PartId::kRoot]);
 	worldTransform_[PartId::kRoot].TransferMatrix();
