@@ -22,6 +22,10 @@ void PlayerBullet::Update()
 	worldTransform_.translation_ += move_;
 	worldTransformUpdate(&worldTransform_);
 	worldTransform_.TransferMatrix();
+
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection)

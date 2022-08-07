@@ -17,6 +17,7 @@ public:
 	void Initialize(Model* model, const Vector3& position,const Vector3& move);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
+	bool IsDead()const { return isDead_; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -29,5 +30,11 @@ private:
 	float moveSpeed = 0.5;
 	float rollSpeed = 0.02 * PI;
 	float scaleSpeed = 0.1;
+	//寿命
+	static const int32_t lifeTime = 60 * 5;
+	//デスタイマー
+	int32_t deathTimer_ = lifeTime;
+	//デスフラグ
+	bool isDead_ = false;
 };
 

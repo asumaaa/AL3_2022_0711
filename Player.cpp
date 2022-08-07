@@ -20,6 +20,11 @@ void Player::Update()
 	//移動関連
 	Move();
 	Roll();
+	
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+		{return bullet->IsDead(); }
+	);
 	//攻撃
 	Attack();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
@@ -102,7 +107,7 @@ void Player::Attack()
 	{
 		Vector3 velocity(0, 0, bulletSpeed);
 		//速度ベクトルを時期の向きに合わせて回転する
-		vecWorldTransform(&velocity, &worldTransform_);
+		worldTransformRoll(&velocity, &worldTransform_);
 
 		//弾を生成し初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
