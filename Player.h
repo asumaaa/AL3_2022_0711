@@ -10,6 +10,8 @@
 #include "WorldTransform.h"
 #include "Matrix.h"
 #include "PlayerBullet.h"
+#include "memory"
+#include "list"
 #define PI 3.141592653589
 
 class Player
@@ -37,6 +39,6 @@ private:
 	float scaleSpeed = 0.1;
 
 	//’e
-	PlayerBullet* bullet_ = nullptr;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 };
 
