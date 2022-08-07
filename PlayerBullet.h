@@ -9,24 +9,18 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Matrix.h"
-#include "PlayerBullet.h"
 #define PI 3.141592653589
 
-class Player
+class PlayerBullet
 {
 public:
-	void Initialize(Model* model,uint32_t textureHandle);
+	void Initialize(Model* model, const Vector3 position);
 	void Update();
-	void Move();
-	void Roll();
-	void Draw(ViewProjection viewProjection);
-	void Attack();
+	void Draw(const ViewProjection& viewProjection);
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
-	Input* input_ = nullptr;
-	DebugText* debugText_ = nullptr;
 	//移動用ベクトル
 	Vector3 move = { 0,0,0 };
 	Vector3 roll = { 0,0,0 };
@@ -35,8 +29,5 @@ private:
 	float moveSpeed = 0.5;
 	float rollSpeed = 0.02 * PI;
 	float scaleSpeed = 0.1;
-
-	//弾
-	PlayerBullet* bullet_ = nullptr;
 };
 
