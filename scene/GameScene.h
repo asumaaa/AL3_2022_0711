@@ -51,28 +51,31 @@ class GameScene {
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-	uint32_t textureHandleScope = 0;
-	uint32_t textureHandleScope2 = 0;
 
 	//3Dモデル
-	Model* model_[36];
-	Model* scope;
-	Model* scope2;
+	Model* model_[9];
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_[36];
-	WorldTransform worldTransformScope;
-	WorldTransform worldTransformScope2;
+	WorldTransform worldTransform_[9];
 	//ビュープロジェクション
-	ViewProjection viewProjectionScope;
 	ViewProjection viewProjection_;
-	Vector3 target= {0,0,0};
 
-	//スコープモード
-	bool scopeMode = false;
-	bool scopeMode2 = false;
+	enum PartId
+	{
+		kRoot,
+		kSpine,
+		kChest,
+		kHead,
+		kArmL,
+		kArmR,
+		kHip,
+		kLegL,
+		kLegR,
+		
+		kNumPartId
+	};
 
-	const float window_width = 1440;
-	const float window_height = 810;
+	//移動ベクトル
+	Vector3 move = { 0,0,0 };
 
 	/// <summary>
 	/// ゲームシーン用

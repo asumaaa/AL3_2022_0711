@@ -6,12 +6,10 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-	for (int i = 0; i < 36; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		delete model_[i];
 	}
-	delete scope;
-	delete scope2;
 }
 
 void GameScene::Initialize() {
@@ -21,99 +19,84 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
-
-	worldTransformScope.Initialize();
-	worldTransformScope.scale_ = { 1,1,1 };
-	worldTransformScope.translation_ = { 0,0,-10 };
-	worldTransformUpdate(&worldTransformScope);
-	worldTransformScope2.Initialize();
-	worldTransformScope2.scale_ = { 5.0f * 1.4f,3.0f * 1.4f,1};
-	worldTransformScope2.translation_ = { 0,0,-10};
-	worldTransformUpdate(&worldTransformScope2);
-		
-	scope = Model::Create();
-	scope2 = Model::Create();
-
 	//3Dモデルの生成
-	for (int i = 0; i < 36; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		model_[i] = Model::Create();
 		//ワールドトランスフォームの初期化
 		worldTransform_[i].Initialize();
+	}
+	worldTransform_[PartId::kSpine].parent_ = &worldTransform_[PartId::kRoot];
+	worldTransform_[PartId::kSpine].translation_ = { 0.0f,5.0f,0.0f };
 
-		//座標を変える
-		worldTransform_[i].translation_ += Vector3(4 * (i % 6) - 10, 4  * (i / 6) - 10, 0.0f);
+	//上半身
+	//胸
+	worldTransform_[PartId::kChest].parent_ = &worldTransform_[PartId::kSpine];
+	worldTransform_[PartId::kChest].translation_ = { 0.0f,0.0f,0.0f };
+	//頭
+	worldTransform_[PartId::kHead].parent_ = &worldTransform_[PartId::kChest];
+	worldTransform_[PartId::kHead].translation_ = { 0.0f,5.0f,0.0f };
+	//左腕
+	worldTransform_[PartId::kArmL].parent_ = &worldTransform_[PartId::kChest];
+	worldTransform_[PartId::kArmL].translation_ = { 5.0f,0.0f,0.0f };
+	//右腕
+	worldTransform_[PartId::kArmR].parent_ = &worldTransform_[PartId::kChest];
+	worldTransform_[PartId::kArmR].translation_ = {-5.0f,0.0f,0.0f };
+
+	////下半身
+	//腰
+	worldTransform_[PartId::kHip].parent_ = &worldTransform_[PartId::kSpine];
+	worldTransform_[PartId::kHip].translation_ = { 0.0f,-5.0f,0.0f };
+	//左足
+	worldTransform_[PartId::kLegL].parent_ = &worldTransform_[PartId::kHip];
+	worldTransform_[PartId::kLegL].translation_ = { 5.0f, -5.0f,0.0f };
+	//右足
+	worldTransform_[PartId::kLegR].parent_ = &worldTransform_[PartId::kHip];
+	worldTransform_[PartId::kLegR].translation_ = {-5.0f,-5.0f,0.0f };
+
+	//座標を変える
+	for (int i = 0; i < 9; i++)
+	{
 		worldTransformUpdate(&worldTransform_[i]);
 	}
+
 	//ビュープロジェクションの初期化
-	viewProjectionScope.eye = { 0,0,-20 };
-	viewProjectionScope.Initialize();
-	viewProjection_.eye = { 0,0,50 };
+	viewProjection_.eye = { 0,0,-50 };
 	viewProjection_.Initialize();
 
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
-	textureHandleScope = TextureManager::Load("reticle.png");
-	textureHandleScope2 = TextureManager::Load("scope.png");
 }
 
-void GameScene::Update() 
+void GameScene::Update()
 {
-	if (input_->PushKey(DIK_UP))
+	if (input_->PushKey(DIK_LEFT))
 	{
-		target.y += 0.1;
-	}
-	if (input_->PushKey(DIK_DOWN))
-	{
-		target.y -= 0.1;
+		move.x -= 0.2;
 	}
 	if (input_->PushKey(DIK_RIGHT))
 	{
-		target.x -= 0.1;
+		move.x += 0.2;
 	}
-	if (input_->PushKey(DIK_LEFT))
+	if (input_->PushKey(DIK_UP))
 	{
-		target.x += 0.1;
+		move.y += 0.2;
+	}
+	if (input_->PushKey(DIK_DOWN))
+	{
+		move.y -= 0.2;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE) && scopeMode == false)
-	{
-		viewProjection_.eye = { 0,0,25 };
-		scopeMode = true;
-	}
-	else if(input_->TriggerKey(DIK_SPACE))
-	{
-		scopeMode = false;
-	}
+	worldTransformUpdate(&worldTransform_[PartId::kRoot]);
+	worldTransform_[PartId::kRoot].translation_ = move;
+	worldTransform_[PartId::kRoot].TransferMatrix();
 
-	if (scopeMode == true)
+	for (int i = 1; i < 9; i++)
 	{
-
-		if (input_->PushKey(DIK_W))
-		{
-			scopeMode2 = true;
-		}
-		else if (input_->PushKey(DIK_S))
-		{
-			scopeMode2 = false;
-		}
-
-		if (scopeMode2 == false && viewProjection_.eye.z < 25)
-		{
-			viewProjection_.eye.z += 0.5f;
-		}
-		if (scopeMode2 == true && viewProjection_.eye.z > 15)
-		{
-			viewProjection_.eye.z -= 0.5f;
-		}
+		worldTransformUpdate(&worldTransform_[i]);
+		worldTransform_[i].matWorld_ *= worldTransform_[i].parent_->matWorld_;
+		worldTransform_[i].TransferMatrix();
 	}
-	if(scopeMode == false)
-	{
-		viewProjection_.eye = { 0,0,50 };
-	}
-
-	viewProjection_.target = target;
-	viewProjection_.Initialize();
 }
 
 void GameScene::Draw() {
@@ -142,14 +125,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (int i = 0; i < 36; i++)
+	for (int i = 2; i < 9; i++)
 	{
 		model_[i]->Draw(worldTransform_[i], viewProjection_, textureHandle_);
-	}
-	if (scopeMode == true)
-	{
-		scope->Draw(worldTransformScope, viewProjectionScope, textureHandleScope);
-		scope2->Draw(worldTransformScope2, viewProjectionScope, textureHandleScope2);
 	}
 
 	// 3Dオブジェクト描画後処理
