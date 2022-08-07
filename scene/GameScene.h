@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Matrix.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -53,37 +54,12 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 
 	//3Dモデル
-	Model* model_[13];
-	//ワールドトランスフォーム
-	WorldTransform worldTransform_[13];
+	Model* model_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	enum PartId
-	{
-		kRoot,
-		kSpine,
-		kChest,
-		kHead,
-		kArmL,
-		kArmL2,
-		kArmR,
-		kArmR2,
-		kHip,
-		kLegL,
-		kLegL2,
-		kLegR,
-		kLegR2,
-		
-		kNumPartId
-	};
-
-	float r = 0;
-	float r2 = 1;
-
-	//ジャンプ
-	bool jumpMode = false;
-	float jumpSpead = 0;
+	//プレイヤー
+	Player* player_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
