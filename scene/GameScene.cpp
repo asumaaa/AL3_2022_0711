@@ -10,6 +10,7 @@ GameScene::~GameScene()
 	{
 		delete model_[i];
 	}
+		delete scope;
 }
 
 void GameScene::Initialize() {
@@ -31,25 +32,58 @@ void GameScene::Initialize() {
 		worldTransformUpdate(&worldTransform_[i]);
 	}
 
+	worldTransformScope.Initialize();
+	worldTransformScope.scale_ = { 2,2,2 };
+	worldTransformUpdate(&worldTransformScope);
+		
+	scope = Model::Create();
+
 	//ビュープロジェクションの初期化
+	viewProjection_.eye = { 0,0,50 };
 	viewProjection_.Initialize();
+	viewProjectionScope.Initialize();
 
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
+	textureHandleScope = TextureManager::Load("reticle.png");
 }
 
 void GameScene::Update() 
 {
 	if (input_->PushKey(DIK_UP))
 	{
-		viewZ += 1;
+		target.y += 0.1;
 	}
 	if (input_->PushKey(DIK_DOWN))
 	{
-		viewZ -= 1;
+		target.y -= 0.1;
 	}
-	viewZ = min(viewZ, 6);
-	viewProjection_.eye.z = viewZ;
+	if (input_->PushKey(DIK_RIGHT))
+	{
+		target.x -= 0.1;
+	}
+	if (input_->PushKey(DIK_LEFT))
+	{
+		target.x += 0.1;
+	}
+
+	if (input_->TriggerKey(DIK_SPACE) && scopeMode == false)
+	{
+		scopeMode = true;
+	}
+	else if (input_->TriggerKey(DIK_SPACE))
+	{
+		scopeMode = false;
+	}
+	if (scopeMode == true)
+	{
+		viewProjection_.eye.z = 15;
+	}
+	else if (scopeMode == false)
+	{
+		viewProjection_.eye.z = 50;
+	}
+	viewProjection_.target = target;
 	viewProjection_.Initialize();
 }
 
@@ -79,6 +113,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	if (scopeMode == true)
+	{
+		scope->Draw(worldTransformScope, viewProjectionScope, textureHandleScope);
+	}
 	for (int i = 0; i < 36; i++)
 	{
 		model_[i]->Draw(worldTransform_[i], viewProjection_, textureHandle_);

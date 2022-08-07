@@ -51,14 +51,21 @@ class GameScene {
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	uint32_t textureHandleScope = 0;
 
 	//3Dモデル
 	Model* model_[36];
+	Model* scope;
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_[36];
+	WorldTransform worldTransformScope;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
-	float viewZ = -20;
+	ViewProjection viewProjectionScope;
+	Vector3 target= {0,0,0};
+
+	//スコープモード
+	bool scopeMode = false;
 
 	const float window_width = 1440;
 	const float window_height = 810;
