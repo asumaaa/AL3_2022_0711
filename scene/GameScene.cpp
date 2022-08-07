@@ -9,8 +9,6 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-	delete player_;
-	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -30,12 +28,14 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	//自キャラ
-	player_ = new Player();
-	player_->Initialize(model_,textureHandle_);
+	Player* newPlayer = new Player();
+	newPlayer->Initialize(model_,textureHandle_);
+	player_.reset(newPlayer);
 
 	//敵
-	enemy_ = new Enemy();
-	enemy_->Initialize(model_, enemyTexture_);
+	Enemy *newEnemy = new Enemy();
+	newEnemy->Initialize(model_, enemyTexture_);
+	enemy_.reset(newEnemy);
 }
 
 void GameScene::Update()

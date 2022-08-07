@@ -13,6 +13,8 @@
 #include "Matrix.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "memory"
+#include "list"
 
 /// <summary>
 /// ゲームシーン
@@ -61,10 +63,10 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 
 	//プレイヤー
-	Player* player_ = nullptr;
+	std::unique_ptr<Player> player_;
 
 	//敵
-	Enemy* enemy_ = nullptr;
+	std::unique_ptr<Enemy>enemy_;
 
 		/// <summary>
 		/// ゲームシーン用
