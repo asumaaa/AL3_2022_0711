@@ -100,9 +100,13 @@ void Player::Attack()
 {
 	if (input_->TriggerKey(DIK_SPACE))
 	{
+		Vector3 velocity(0, 0, bulletSpeed);
+		//‘¬“xƒxƒNƒgƒ‹‚ğŠú‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
+		vecWorldTransform(&velocity, &worldTransform_);
+
 		//’e‚ğ¶¬‚µ‰Šú‰»
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 
 		//’e‚ğ“o˜^‚·‚é
 		bullets_.push_back(std::move(newBullet));

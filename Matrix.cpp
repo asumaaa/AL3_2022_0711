@@ -99,3 +99,10 @@ void worldTransformUpdate(WorldTransform* worldTransform_)
 
 	worldTransform_->TransferMatrix();
 }
+
+void vecWorldTransform(Vector3* vector_, WorldTransform* worldTransform_)
+{
+	worldTransformScale(vector_, worldTransform_);
+	worldTransformRoll(vector_, worldTransform_);
+	worldTransformMove(vector_, worldTransform_);
+}

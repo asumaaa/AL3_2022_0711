@@ -1,13 +1,15 @@
 #include "PlayerBullet.h"
 #include <cassert>
 
-void PlayerBullet::Initialize(Model* model, const Vector3 position)
+void PlayerBullet::Initialize(Model* model, const Vector3& position,const Vector3& move)
 {
 	assert(model);
 
 	model_ = model;
 	//テクスチャ読み込み
 	textureHandle_ = TextureManager::Load("black.png");
+
+	move_ = move;
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -17,6 +19,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3 position)
 
 void PlayerBullet::Update()
 {
+	worldTransform_.translation_ += move_;
 	worldTransformUpdate(&worldTransform_);
 	worldTransform_.TransferMatrix();
 }

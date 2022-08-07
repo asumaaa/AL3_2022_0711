@@ -14,7 +14,7 @@
 class PlayerBullet
 {
 public:
-	void Initialize(Model* model, const Vector3 position);
+	void Initialize(Model* model, const Vector3& position,const Vector3& move);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 private:
@@ -22,9 +22,9 @@ private:
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	//移動用ベクトル
-	Vector3 move = { 0,0,0 };
-	Vector3 roll = { 0,0,0 };
-	Vector3 scale = { 0,0,0 };
+	Vector3 move_ = { 0,0,0 };
+	Vector3 roll_ = { 0,0,0 };
+	Vector3 scale_ = { 0,0,0 };
 	//速度
 	float moveSpeed = 0.5;
 	float rollSpeed = 0.02 * PI;

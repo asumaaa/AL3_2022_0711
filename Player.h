@@ -40,5 +40,6 @@ private:
 
 	//’e
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	float bulletSpeed = 1.0;
 };
 
