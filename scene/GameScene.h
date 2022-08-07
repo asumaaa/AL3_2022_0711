@@ -74,9 +74,6 @@ class GameScene {
 		kNumPartId
 	};
 
-	//移動ベクトル
-	Vector3 move = { 0,0,0 };
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
