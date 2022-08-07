@@ -61,7 +61,7 @@ void GameScene::Initialize() {
 	}
 
 	//ビュープロジェクションの初期化
-	viewProjection_.eye = { 15,0,-30 };
+	viewProjection_.eye = { 0,0,-30 };
 	viewProjection_.Initialize();
 
 	//ファイル名を指定してテクスチャを読み込む
@@ -72,20 +72,26 @@ void GameScene::Update()
 {
 	if (input_->PushKey(DIK_LEFT))
 	{
-		worldTransform_[PartId::kArmR].rotation_.x += 0.05;
+		worldTransform_[PartId::kRoot].translation_.x -= 0.2;
 	}
 	if (input_->PushKey(DIK_RIGHT))
 	{
-		worldTransform_[PartId::kArmL].rotation_.x += 0.05;
+		worldTransform_[PartId::kRoot].translation_.x += 0.2;
 	}
 	if (input_->PushKey(DIK_A))
 	{
-		worldTransform_[PartId::kLegR].rotation_.x += 0.05;
+		worldTransform_[PartId::kRoot].rotation_.y += 0.05;
 	}
 	if (input_->PushKey(DIK_D))
 	{
-		worldTransform_[PartId::kLegL].rotation_.x += 0.05;
+		worldTransform_[PartId::kRoot].rotation_.y -= 0.05;
 	}
+
+	//腕足回転
+	worldTransform_[PartId::kArmL].rotation_.x += 0.05;
+	worldTransform_[PartId::kArmR].rotation_.x -= 0.05;
+	worldTransform_[PartId::kLegL].rotation_.x += 0.05;
+	worldTransform_[PartId::kLegR].rotation_.x -= 0.05;
 
 	worldTransformUpdate(&worldTransform_[PartId::kRoot]);
 	worldTransform_[PartId::kRoot].TransferMatrix();
