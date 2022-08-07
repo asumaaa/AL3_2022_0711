@@ -103,8 +103,46 @@ void GameScene::Update()
 	}
 
 	//腕足回転
-	r += 0.02;
-	r2 += 0.02;
+	//Wキーを押している間歩く
+	if (input_->PushKey(DIK_W))
+	{
+		r += 0.02;
+		r2 += 0.02;
+		//左シフトを押すとダッシュ
+		if (input_->PushKey(DIK_LSHIFT))
+		{
+			r += 0.02;
+			r2 += 0.02;
+		}
+	}
+	if (r >= 2)r = 0;
+	if (r2 >= 2)r2 = 0;
+
+	if (input_->PushKey(DIK_W) != true)
+	{
+		if (r != 0 && r2 != 0)
+		{
+			r += 0.02;
+			r2 += 0.02;
+		}
+	}
+
+	//ジャンプ
+	//スペースキーでジャンプモードへ
+	if (input_->TriggerKey(DIK_SPACE) && jumpMode == false)
+	{
+		jumpMode = true;
+	}
+	if (jumpMode == true)
+	{
+		jumpSpead += 0.02;
+		worldTransform_[PartId::kRoot].translation_.y = sin(jumpSpead * PI) * 5;
+		if (jumpSpead >= 1)
+		{
+			jumpSpead = 0;
+			jumpMode = false;
+		}
+	}
 
 	worldTransform_[PartId::kArmL].rotation_.x = sin(r * PI);
 	worldTransform_[PartId::kArmR].rotation_.x = sin(r2 * PI);

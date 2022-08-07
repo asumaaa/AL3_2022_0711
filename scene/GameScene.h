@@ -81,6 +81,10 @@ class GameScene {
 	float r = 0;
 	float r2 = 1;
 
+	//ジャンプ
+	bool jumpMode = false;
+	float jumpSpead = 0;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
