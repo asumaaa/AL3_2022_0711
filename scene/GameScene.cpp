@@ -3,11 +3,13 @@
 #include <cassert>
 #include "math.h"
 
+#define PI 3.141592653589
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		delete model_[i];
 	}
@@ -21,7 +23,7 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	//3Dモデルの生成
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		model_[i] = Model::Create();
 		//ワールドトランスフォームの初期化
@@ -36,27 +38,39 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::kChest].translation_ = { 0.0f,0.0f,0.0f };
 	//頭
 	worldTransform_[PartId::kHead].parent_ = &worldTransform_[PartId::kChest];
-	worldTransform_[PartId::kHead].translation_ = { 0.0f,5.0f,0.0f };
+	worldTransform_[PartId::kHead].translation_ = { 0.0f,3.0f,0.0f };
 	//左腕
 	worldTransform_[PartId::kArmL].parent_ = &worldTransform_[PartId::kChest];
-	worldTransform_[PartId::kArmL].translation_ = { 5.0f,0.0f,0.0f };
+	worldTransform_[PartId::kArmL].translation_ = { 3.0f,0.0f,0.0f };
+	//左腕2
+	worldTransform_[PartId::kArmL2].parent_ = &worldTransform_[PartId::kArmL];
+	worldTransform_[PartId::kArmL2].translation_ = { 0.0f,-2.0f,0.0f };
 	//右腕
 	worldTransform_[PartId::kArmR].parent_ = &worldTransform_[PartId::kChest];
-	worldTransform_[PartId::kArmR].translation_ = {-5.0f,0.0f,0.0f };
+	worldTransform_[PartId::kArmR].translation_ = {-3.0f,0.0f,0.0f };
+	//右腕2
+	worldTransform_[PartId::kArmR2].parent_ = &worldTransform_[PartId::kArmR];
+	worldTransform_[PartId::kArmR2].translation_ = {  0.0f,-2.0f,0.0f };
 
 	////下半身
 	//腰
 	worldTransform_[PartId::kHip].parent_ = &worldTransform_[PartId::kSpine];
-	worldTransform_[PartId::kHip].translation_ = { 0.0f,-5.0f,0.0f };
+	worldTransform_[PartId::kHip].translation_ = { 0.0f,-3.0f,0.0f };
 	//左足
 	worldTransform_[PartId::kLegL].parent_ = &worldTransform_[PartId::kHip];
-	worldTransform_[PartId::kLegL].translation_ = { 5.0f, -5.0f,0.0f };
+	worldTransform_[PartId::kLegL].translation_ = { 2.0f, -3.0f,0.0f };
+	//左足2
+	worldTransform_[PartId::kLegL2].parent_ = &worldTransform_[PartId::kLegL];
+	worldTransform_[PartId::kLegL2].translation_ = { 0.0f, -2.0f,0.0f };
 	//右足
 	worldTransform_[PartId::kLegR].parent_ = &worldTransform_[PartId::kHip];
-	worldTransform_[PartId::kLegR].translation_ = {-5.0f,-5.0f,0.0f };
+	worldTransform_[PartId::kLegR].translation_ = {-2.0f,-3.0f,0.0f };
+	//右足2
+	worldTransform_[PartId::kLegR2].parent_ = &worldTransform_[PartId::kLegR];
+	worldTransform_[PartId::kLegR2].translation_ = {  0.0f,-2.0f,0.0f };
 
 	//座標を変える
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		worldTransformUpdate(&worldTransform_[i]);
 	}
@@ -89,18 +103,18 @@ void GameScene::Update()
 	}
 
 	//腕足回転
-	r += 0.1;
-	r2 += 0.1;
+	r += 0.02;
+	r2 += 0.02;
 
-	worldTransform_[PartId::kArmL].rotation_.x = sin(r);
-	worldTransform_[PartId::kArmR].rotation_.x = sin(r2);
-	worldTransform_[PartId::kLegL].rotation_.x = sin(r2);
-	worldTransform_[PartId::kLegR].rotation_.x = sin(r);
+	worldTransform_[PartId::kArmL].rotation_.x = sin(r * PI);
+	worldTransform_[PartId::kArmR].rotation_.x = sin(r2 * PI);
+	worldTransform_[PartId::kLegL].rotation_.x = sin(r2 * PI);
+	worldTransform_[PartId::kLegR].rotation_.x = sin(r * PI);
 
 	worldTransformUpdate(&worldTransform_[PartId::kRoot]);
 	worldTransform_[PartId::kRoot].TransferMatrix();
 
-	for (int i = 1; i < 9; i++)
+	for (int i = 1; i < 13; i++)
 	{
 		worldTransformUpdate(&worldTransform_[i]);
 		worldTransform_[i].matWorld_ *= worldTransform_[i].parent_->matWorld_;
@@ -134,7 +148,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (int i = 2; i < 9; i++)
+	for (int i = 2; i < 13; i++)
 	{
 		model_[i]->Draw(worldTransform_[i], viewProjection_, textureHandle_);
 	}

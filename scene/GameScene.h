@@ -53,9 +53,9 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 
 	//3Dモデル
-	Model* model_[9];
+	Model* model_[13];
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_[9];
+	WorldTransform worldTransform_[13];
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
@@ -66,10 +66,14 @@ class GameScene {
 		kChest,
 		kHead,
 		kArmL,
+		kArmL2,
 		kArmR,
+		kArmR2,
 		kHip,
 		kLegL,
+		kLegL2,
 		kLegR,
+		kLegR2,
 		
 		kNumPartId
 	};
