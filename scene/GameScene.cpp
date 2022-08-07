@@ -1,6 +1,7 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "math.h"
 
 GameScene::GameScene() {}
 
@@ -88,10 +89,13 @@ void GameScene::Update()
 	}
 
 	//腕足回転
-	worldTransform_[PartId::kArmL].rotation_.x += 0.05;
-	worldTransform_[PartId::kArmR].rotation_.x -= 0.05;
-	worldTransform_[PartId::kLegL].rotation_.x += 0.05;
-	worldTransform_[PartId::kLegR].rotation_.x -= 0.05;
+	r += 0.1;
+	r2 += 0.1;
+
+	worldTransform_[PartId::kArmL].rotation_.x = sin(r);
+	worldTransform_[PartId::kArmR].rotation_.x = sin(r2);
+	worldTransform_[PartId::kLegL].rotation_.x = sin(r2);
+	worldTransform_[PartId::kLegR].rotation_.x = sin(r);
 
 	worldTransformUpdate(&worldTransform_[PartId::kRoot]);
 	worldTransform_[PartId::kRoot].TransferMatrix();
