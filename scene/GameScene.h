@@ -12,16 +12,17 @@
 #include "DebugCamera.h"
 #include "Matrix.h"
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
 
-  public: // メンバ関数
-	/// <summary>
-	/// コンストクラタ
-	/// </summary>
+public: // メンバ関数
+  /// <summary>
+  /// コンストクラタ
+  /// </summary>
 	GameScene();
 
 	/// <summary>
@@ -44,7 +45,7 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
-  private: // メンバ変数
+private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -52,6 +53,7 @@ class GameScene {
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	uint32_t enemyTexture_ = 0;
 
 	//3Dモデル
 	Model* model_;
@@ -61,7 +63,10 @@ class GameScene {
 	//プレイヤー
 	Player* player_ = nullptr;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
+	//敵
+	Enemy* enemy_ = nullptr;
+
+		/// <summary>
+		/// ゲームシーン用
+		/// </summary>
 };

@@ -10,6 +10,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() 
 {
 	delete player_;
+	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -22,6 +23,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
+	enemyTexture_ = TextureManager::Load("purple.png");
 	
 	//ビュープロジェクションの初期化
 	viewProjection_.eye = { 0,0,-50 };
@@ -30,11 +32,16 @@ void GameScene::Initialize() {
 	//自キャラ
 	player_ = new Player();
 	player_->Initialize(model_,textureHandle_);
+
+	//敵
+	enemy_ = new Enemy();
+	enemy_->Initialize(model_, enemyTexture_);
 }
 
 void GameScene::Update()
 {
 	player_->Update();
+	enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -65,6 +72,7 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
