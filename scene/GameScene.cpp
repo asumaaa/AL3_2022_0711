@@ -67,22 +67,23 @@ void GameScene::Update()
 		target.x += 0.1;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE) && scopeMode == false)
+	if (input_->PushKey(DIK_SPACE))
 	{
 		scopeMode = true;
 	}
-	else if (input_->TriggerKey(DIK_SPACE))
+	else
 	{
 		scopeMode = false;
 	}
-	if (scopeMode == true)
+	if (scopeMode == true && viewProjection_.eye.z > 15)
 	{
-		viewProjection_.eye.z = 15;
+		viewProjection_.eye.z -= 0.5;
 	}
-	else if (scopeMode == false)
+	else if (scopeMode == false && viewProjection_.eye.z < 50)
 	{
-		viewProjection_.eye.z = 50;
+		viewProjection_.eye.z += 0.5;
 	}
+
 	viewProjection_.target = target;
 	viewProjection_.Initialize();
 }
