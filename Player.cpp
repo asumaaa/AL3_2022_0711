@@ -68,11 +68,11 @@ void Player::Roll()
 	//ADキーで回転
 	if (input_->PushKey(DIK_A))
 	{
-		roll.y += rollSpeed;
+		roll.y -= rollSpeed;
 	}
 	if (input_->PushKey(DIK_D))
 	{
-		roll.y -= rollSpeed;
+		roll.y += rollSpeed;
 	}
 
 	//キーを離したときに元の角度に
