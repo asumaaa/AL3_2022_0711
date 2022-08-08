@@ -44,7 +44,7 @@ private:
 		Leave,		//離脱
 	};
 	//フェーズ
-	Phase phase_ = Phase::Approach;	//初期フェーズ
+	Phase phase_ = Phase::Approach;	//初期フェーズa
 };
 
 
