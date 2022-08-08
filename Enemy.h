@@ -11,6 +11,7 @@
 #include "Matrix.h"
 #include "memory"
 #include "list"
+#include "EnemyBullet.h"
 #define PI 3.141592653589
 
 class Enemy
@@ -24,6 +25,7 @@ public:
 	void Attack();	//攻撃
 	void PhaseManager();	//フェーズの遷移を管理
 	void Approach();	//接近フェーズ
+	void ApproachInitialize();
 	void Leave();		//離脱フェーズ
 private:
 	WorldTransform worldTransform_;
@@ -45,6 +47,12 @@ private:
 	};
 	//フェーズ
 	Phase phase_ = Phase::Approach;	//初期フェーズ
+
+	//弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	float bulletSpeed = 1.0;
+	static const int bulletInterval = 60;
+	int bulletTimer = bulletInterval;
 };
 
 
