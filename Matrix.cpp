@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include <cassert>
 #include "math.h"
+#include <cmath>
 
 void worldTransformScale(Vector3* vector_, WorldTransform* worldTransform_)
 {
@@ -105,4 +106,22 @@ void vecWorldTransform(Vector3* vector_, WorldTransform* worldTransform_)
 	worldTransformScale(vector_, worldTransform_);
 	worldTransformRoll(vector_, worldTransform_);
 	worldTransformMove(vector_, worldTransform_);
+}
+
+float vector3Length(Vector3 vector_)
+{
+	float x2 = vector_.x * vector_.x;
+	float y2 = vector_.y * vector_.y;
+	float z2 = vector_.z * vector_.z;
+	return sqrt(x2 + y2 + z2);
+}
+
+Vector3 vector3Normalize(Vector3 vector_)
+{
+	Vector3 v;
+	v.x = vector_.x / vector3Length(vector_);
+	v.y = vector_.y / vector3Length(vector_);
+	v.z = vector_.z / vector3Length(vector_);
+
+	return v;
 }

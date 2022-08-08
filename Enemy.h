@@ -12,6 +12,7 @@
 #include "memory"
 #include "list"
 #include "EnemyBullet.h"
+#include "Player.h"
 #define PI 3.141592653589
 
 class Enemy
@@ -27,6 +28,13 @@ public:
 	void Approach();	//接近フェーズ
 	void ApproachInitialize();
 	void Leave();		//離脱フェーズ
+	void LeaveInitialize();
+	//セッター
+	void SetPlayer(Player* player) { player_ = player; }
+	//ゲッター
+	Vector3 GetTransration() { return worldTransform_.translation_; }
+	Vector3 GetRotation() { return worldTransform_.rotation_; }
+	Vector3 GetScale() { return worldTransform_.scale_; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -53,6 +61,9 @@ private:
 	float bulletSpeed = 1.0;
 	static const int bulletInterval = 60;
 	int bulletTimer = bulletInterval;
+
+	//自キャラ
+	Player* player_ = nullptr;
 };
 
 

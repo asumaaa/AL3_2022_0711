@@ -68,13 +68,19 @@ void Enemy::Draw(ViewProjection viewProjection)
 
 void Enemy::Attack()
 {
-	Vector3 velocity(0, 0, -bulletSpeed);
-	//速度ベクトルを時期の向きに合わせて回転する
-	/*worldTransformRoll(&velocity, &worldTransform_);*/
+	assert(player_);
+	
+	//敵とプレイヤーの差分ベクトルを取得
+	Vector3 velocity;
+	velocity.x = player_->GetTransration().x - GetTransration().x;
+	velocity.y = player_->GetTransration().y - GetTransration().y;
+	velocity.z = player_->GetTransration().z - GetTransration().z;
+	//ベクトルの長さを速さに合わせる
+	Vector3 velocity2(vector3Normalize(velocity).x * bulletSpeed, vector3Normalize(velocity).y * bulletSpeed, vector3Normalize(velocity).z * bulletSpeed);
 
 	//弾を生成し初期化
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	newBullet->Initialize(model_, worldTransform_.translation_, velocity2);
 
 	//弾を登録する
 	bullets_.push_back(std::move(newBullet));
@@ -124,3 +130,7 @@ void Enemy::Leave()
 {
 	worldTransform_.translation_.z += 0.2f;
 }
+void Enemy::LeaveInitialize()
+{
+}
+

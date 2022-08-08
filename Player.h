@@ -23,6 +23,10 @@ public:
 	void Roll();
 	void Draw(ViewProjection viewProjection);
 	void Attack();
+	//ÉQÉbÉ^Å[
+	Vector3 GetTransration() { return worldTransform_.translation_; }
+	Vector3 GetRotation() { return worldTransform_.rotation_; }
+	Vector3 GetScale() { return worldTransform_.scale_; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;

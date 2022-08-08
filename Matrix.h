@@ -12,3 +12,7 @@ void worldTransformMove(Vector3* vector_, WorldTransform* worldTransform_);
 void worldTransformRoll(Vector3* vector_, WorldTransform* worldTransform_);
 void vecWorldTransform(Vector3* vector_, WorldTransform* worldTransform_);
 
+//ベクトルの長さを返す関数
+float vector3Length(Vector3 vector_);
+//正規化した値を返す関数
+Vector3 vector3Normalize(Vector3 vector_);

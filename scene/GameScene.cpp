@@ -36,6 +36,8 @@ void GameScene::Initialize() {
 	Enemy *newEnemy = new Enemy();
 	newEnemy->Initialize(model_, enemyTexture_);
 	enemy_.reset(newEnemy);
+	//敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_.get());
 }
 
 void GameScene::Update()
