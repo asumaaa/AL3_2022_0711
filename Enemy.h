@@ -21,7 +21,10 @@ public:
 	void Move();
 	void Roll();
 	void Draw(ViewProjection viewProjection);
-	void Attack();
+	void Attack();	//攻撃
+	void PhaseManager();	//フェーズの遷移を管理
+	void Approach();	//接近フェーズ
+	void Leave();		//離脱フェーズ
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -34,5 +37,14 @@ private:
 	float moveSpeed = 0.5;
 	float rollSpeed = 0.02 * PI;
 	float scaleSpeed = 0.1;
+	//行動フェーズ
+	enum class Phase
+	{
+		Approach,	//接近
+		Leave,		//離脱
+	};
+	//フェーズ
+	Phase phase_ = Phase::Approach;	//初期フェーズ
 };
+
 
