@@ -23,6 +23,7 @@ public:
 	void Roll();
 	void Draw(ViewProjection viewProjection);
 	void Attack();
+	void OnCollision();
 	//ÉQÉbÉ^Å[
 	Vector3 GetTransration() { return worldTransform_.translation_; }
 	Vector3 GetRotation() { return worldTransform_.rotation_; }

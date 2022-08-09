@@ -29,6 +29,7 @@ public:
 	void ApproachInitialize();
 	void Leave();		//離脱フェーズ
 	void LeaveInitialize();
+	void OnCollision();
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; }
 	//ゲッター

@@ -134,3 +134,7 @@ void Enemy::LeaveInitialize()
 {
 }
 
+void Enemy::OnCollision()
+{
+}
+

@@ -17,6 +17,7 @@ public:
 	void Initialize(Model* model, const Vector3& position,const Vector3& move);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
+	void OnCollision();
 	bool IsDead()const { return isDead_; }
 private:
 	WorldTransform worldTransform_;
