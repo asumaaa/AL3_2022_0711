@@ -47,6 +47,10 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+public:
+	//当たり判定
+	void CheckAllCollisions();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -67,6 +71,12 @@ private: // メンバ変数
 
 	//敵
 	std::unique_ptr<Enemy>enemy_;
+
+	//半径
+	float playerR = 5;
+	float enemyR = 5;
+	float playerBulletR = 5;
+	float enemyBulletR = 5;
 
 		/// <summary>
 		/// ゲームシーン用

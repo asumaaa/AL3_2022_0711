@@ -44,6 +44,7 @@ void GameScene::Update()
 {
 	player_->Update();
 	enemy_->Update();
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -94,5 +95,87 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
+#pragma endregion
+}
+
+void GameScene::CheckAllCollisions()
+{
+	//判定対象ABの座標と差分の座標
+	Vector3 posA, posB,V;
+	//座標ABの距離
+	float length;
+	//弾リストの取得
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullet();
+	const std::list<std::unique_ptr<EnemyBullet >>& enemyBullets  = enemy_ ->GetBullet();
+
+#pragma region 自キャラと敵弾の当たり判定
+	//自キャラの座標
+	posA = player_->GetTransration();
+
+	//自キャラと敵弾すべての当たり判定
+	for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets)
+	{
+		//敵の弾の座標取得
+		posB = bullet->GetTransration();
+		//AとBの距離を求める
+		V = { posA.x - posB.x,posA.y - posB.y, posA.z - posB.z };
+		length = vector3Length(V);
+		//衝突判定
+		if ((V.x * V.x) + (V.y * V.y) + (V.z * V.z) <= playerR + enemyBulletR)
+		{
+			//自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			//敵弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	//敵キャラの座標
+	posA = enemy_->GetTransration();
+
+	//自弾と敵キャラすべての当たり判定
+	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets)
+	{
+		//敵の弾の座標取得
+		posB = bullet->GetTransration();
+		//AとBの距離を求める
+		V = { posA.x - posB.x,posA.y - posB.y, posA.z - posB.z };
+		length = vector3Length(V);
+		//衝突判定
+		if ((V.x * V.x) + (V.y * V.y) + (V.z * V.z) <= playerBulletR + enemyR)
+		{
+			//敵キャラの衝突時コールバックを呼び出す
+			enemy_->OnCollision();
+			//自弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+
+	//自弾と敵キャラすべての当たり判定
+	for (const std::unique_ptr<PlayerBullet>& playerbullet : playerBullets)
+	{
+		for (const std::unique_ptr<EnemyBullet>& enemybullet : enemyBullets)
+		{
+			//弾の座標取得
+			posA = playerbullet->GetTransration();
+			posB = enemybullet ->GetTransration();
+			//AとBの距離を求める
+			V = { posA.x - posB.x,posA.y - posB.y, posA.z - posB.z };
+			length = vector3Length(V);
+			//衝突判定
+			if ((V.x * V.x) + (V.y * V.y) + (V.z * V.z) <= playerBulletR + enemyR)
+			{
+				//自弾の衝突時コールバックを呼び出す
+				playerbullet->OnCollision();
+				//敵弾の衝突時コールバックを呼び出す
+				enemybullet->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 }

@@ -36,6 +36,7 @@ public:
 	Vector3 GetTransration() { return worldTransform_.translation_; }
 	Vector3 GetRotation() { return worldTransform_.rotation_; }
 	Vector3 GetScale() { return worldTransform_.scale_; }
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets_; }//’eƒŠƒXƒg‚ðŽæ“¾
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;

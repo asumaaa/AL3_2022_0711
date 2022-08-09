@@ -20,6 +20,10 @@ public:
 	void Draw(const ViewProjection& viewProjection);
 	void OnCollision();
 	bool IsDead()const { return isDead_; }
+	//ÉQÉbÉ^Å[
+	Vector3 GetTransration() { return worldTransform_.translation_; }
+	Vector3 GetRotation() { return worldTransform_.rotation_; }
+	Vector3 GetScale() { return worldTransform_.scale_; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
