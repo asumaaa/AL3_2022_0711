@@ -62,6 +62,9 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	uint32_t enemyTexture_ = 0;
 
+	//デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
+
 	//3Dモデル
 	Model* model_;
 	Model* modelSkydome_;

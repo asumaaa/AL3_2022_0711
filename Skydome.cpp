@@ -2,22 +2,23 @@
 #include "Matrix.h"
 #include <cassert>
 
-void Skydome::Initialize(Model* model, uint32_t textureHandle)
+void Skydome::Initialize(Model* model)
 {
 	assert(model);
 
 	model_ = model;
-	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
-	worldTransformUpdate(&worldTransform_);
+	worldTransform_.translation_ = { 0,0,0 };
+	worldTransform_.scale_  = { 50,50,50 };
 }
 
 void Skydome::Update()
 {
+	worldTransformUpdate(&worldTransform_);
 }
 
 void Skydome::Draw(ViewProjection viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection);
 }
