@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "memory"
 #include "list"
+#include "Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -63,6 +64,7 @@ private: // メンバ変数
 
 	//3Dモデル
 	Model* model_;
+	Model* modelSkydome_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
@@ -71,6 +73,9 @@ private: // メンバ変数
 
 	//敵
 	std::unique_ptr<Enemy>enemy_;
+
+	//天球
+	std::unique_ptr<Skydome>skydome_;
 
 	//半径
 	float playerR = 5;

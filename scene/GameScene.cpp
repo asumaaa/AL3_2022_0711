@@ -9,6 +9,8 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
+	delete model_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -19,6 +21,7 @@ void GameScene::Initialize() {
 
 	//モデル生成
 	model_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("Skydome",true);
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("texture.jpg");
 	enemyTexture_ = TextureManager::Load("purple.png");
