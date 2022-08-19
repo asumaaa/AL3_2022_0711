@@ -16,6 +16,7 @@
 #include "memory"
 #include "list"
 #include "Skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -79,6 +80,9 @@ private: // メンバ変数
 
 	//天球
 	std::unique_ptr<Skydome>skydome_;
+
+	//レールカメラ
+	std::unique_ptr<RailCamera>railCamera_;
 
 	//半径
 	float playerR = 5;

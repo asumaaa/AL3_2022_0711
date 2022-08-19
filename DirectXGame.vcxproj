@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -105,6 +105,7 @@
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
+    <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />
+    <ClInclude Include="RailCamera.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Skydome.h" />
   </ItemGroup>

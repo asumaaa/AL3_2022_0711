@@ -47,8 +47,13 @@ void GameScene::Initialize() {
 
 	//天球
 	Skydome* newSkydome = new Skydome();
-	newSkydome->Initialize(modelSkydome_);
+	newSkydome->Initialize(modelSkydome_,100);
 	skydome_.reset(newSkydome);
+
+	//レールカメラ
+	RailCamera* newRailCamera = new RailCamera();
+	newRailCamera->Initialize(player_->GetWorldTransform());
+	railCamera_.reset(newRailCamera);
 }
 
 void GameScene::Update()
@@ -56,6 +61,7 @@ void GameScene::Update()
 	player_->Update();
 	enemy_->Update();
 	skydome_->Update();
+	railCamera_->Update(player_->GetWorldTransform());
 	debugCamera_->Update();
 	CheckAllCollisions();
 }
@@ -87,9 +93,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	player_->Draw(debugCamera_->GetViewProjection());
-	enemy_->Draw(debugCamera_->GetViewProjection());
-	skydome_->Draw(debugCamera_->GetViewProjection());
+	player_->Draw(railCamera_->GetViewProjection());
+	enemy_->Draw(railCamera_->GetViewProjection());
+	skydome_->Draw(railCamera_->GetViewProjection());
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

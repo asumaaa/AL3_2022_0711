@@ -6,11 +6,14 @@
 class Skydome
 {
 public:
-	void Initialize(Model* model);
+	//引数で天球のサイズを指定
+	void Initialize(Model* model, float r);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
+	//天球の大きさ
+	float r_;
 };
 

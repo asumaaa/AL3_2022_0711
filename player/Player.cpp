@@ -48,11 +48,11 @@ void Player::Move()
 	}
 	if (input_->PushKey(DIK_DOWN))
 	{
-		move.y -= moveSpeed;
+		move.z -= moveSpeed;
 	}
 	if (input_->PushKey(DIK_UP))
 	{
-		move.y += moveSpeed;
+		move.z += moveSpeed;
 	}
 	//画面外に出ないように設定
 	move.x = min(move.x, 36);
@@ -76,18 +76,42 @@ void Player::Roll()
 	}
 
 	//キーを離したときに元の角度に
-	if (input_->PushKey(DIK_A) != true && input_->PushKey(DIK_D) != true && roll.y >= 0)
+	/*if (input_->PushKey(DIK_A) != true && input_->PushKey(DIK_D) != true && roll.y >= 0)
 	{
 		roll.y -= rollSpeed;
 	}
 	if (input_->PushKey(DIK_A) != true && input_->PushKey(DIK_D) != true && roll.y <= 0)
 	{
 		roll.y += rollSpeed;
-	}
+	}*/
 
 	//画面外に出ないように設定
-	roll.y = min(roll.y, PI/2);
-	roll.y = max(roll.y, -PI/2);
+	/*roll.y = min(roll.y, PI/2);
+	roll.y = max(roll.y, -PI/2);*/
+
+	//ADキーで回転
+	if (input_->PushKey(DIK_W))
+	{
+		roll.x -= rollSpeed;
+	}
+	if (input_->PushKey(DIK_S))
+	{
+		roll.x += rollSpeed;
+	}
+
+	//キーを離したときに元の角度に
+	/*if (input_->PushKey(DIK_W) != true && input_->PushKey(DIK_S) != true && roll.x >= 0)
+	{
+		roll.x -= rollSpeed;
+	}
+	if (input_->PushKey(DIK_W) != true && input_->PushKey(DIK_S) != true && roll.x <= 0)
+	{
+		roll.x += rollSpeed;
+	}*/
+
+	//画面外に出ないように設定
+	/*roll.x = min(roll.x, PI / 2);
+	roll.x = max(roll.x, -PI / 2);*/
 
 	worldTransform_.rotation_ = roll;
 }

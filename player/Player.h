@@ -28,6 +28,7 @@ public:
 	Vector3 GetTransration() { return worldTransform_.translation_; }
 	Vector3 GetRotation() { return worldTransform_.rotation_; }
 	Vector3 GetScale() { return worldTransform_.scale_; }
+	WorldTransform GetWorldTransform() { return worldTransform_; }
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets_; }//’eƒŠƒXƒg‚ðŽæ“¾
 private:
 	WorldTransform worldTransform_;
