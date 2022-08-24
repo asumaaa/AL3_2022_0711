@@ -21,7 +21,7 @@ private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
-	Input* input_ = nullptr;
+	Input* input_ = nullptr; 
 	DebugText* debugText_ = nullptr;
 	//移動用ベクトル
 	Vector3 move = { 0,0,0 };
