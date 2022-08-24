@@ -17,6 +17,8 @@
 #include "list"
 #include "Skydome.h"
 #include "RailCamera.h"
+#include "EnemyBullet.h"
+#include "PlayerBullet.h"
 
 /// <summary>
 /// ゲームシーン
@@ -52,6 +54,12 @@ public: // メンバ関数
 public:
 	//当たり判定
 	void CheckAllCollisions();
+	//散弾を追加する
+	void AddEnemyBullet(std::unique_ptr<EnemyBullet>enemyBullet);
+	//敵の弾の更新
+	void EnemyBulletUpdate();
+	//敵の弾の描画
+	void EnemyBulletDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -77,6 +85,12 @@ private: // メンバ変数
 
 	//敵
 	std::unique_ptr<Enemy>enemy_;
+	//敵の弾
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return enemyBullets_; }//弾リストを取得
+	float bulletSpeed = 1.0;
+	static const int bulletInterval = 60;
+	int bulletTimer = bulletInterval;
 
 	//天球
 	std::unique_ptr<Skydome>skydome_;

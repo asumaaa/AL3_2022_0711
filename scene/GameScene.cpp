@@ -199,3 +199,29 @@ void GameScene::CheckAllCollisions()
 	}
 #pragma endregion
 }
+
+void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet)
+{
+	enemyBullets_.push_back(std::move(enemyBullet));
+}
+
+void GameScene::EnemyBulletUpdate()
+{
+	//デスフラグの立った弾を削除
+	enemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
+		{return bullet->IsDead(); }
+	);
+	//弾更新
+	for (std::unique_ptr<EnemyBullet>& bullet : enemyBullets_)
+	{
+		bullet->Update();
+	}
+}
+
+void GameScene::EnemyBulletDraw()
+{
+	for (std::unique_ptr<EnemyBullet>& bullet : enemyBullets_)
+	{
+		bullet->Draw(viewProjection_);
+	}
+}

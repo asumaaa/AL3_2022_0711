@@ -15,6 +15,8 @@
 #include "Player.h"
 #define PI 3.141592653589
 
+class GameScene;
+
 class Enemy
 {
 public:
@@ -32,11 +34,12 @@ public:
 	void OnCollision();
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 	//ゲッター
 	Vector3 GetTransration() { return worldTransform_.translation_; }
 	Vector3 GetRotation() { return worldTransform_.rotation_; }
 	Vector3 GetScale() { return worldTransform_.scale_; }
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets_; }//弾リストを取得
+	//const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets_; }//弾リストを取得
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -59,13 +62,15 @@ private:
 	Phase phase_ = Phase::Approach;	//初期フェーズ
 
 	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
-	float bulletSpeed = 1.0;
+	//std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	/*float bulletSpeed = 1.0;
 	static const int bulletInterval = 60;
-	int bulletTimer = bulletInterval;
+	int bulletTimer = bulletInterval;*/
 
 	//自キャラ
 	Player* player_ = nullptr;
+	//ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
 
 

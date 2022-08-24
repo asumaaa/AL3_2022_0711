@@ -35,15 +35,15 @@ void Enemy::Update()
 		Leave();
 	}
 
-	//デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
-		{return bullet->IsDead(); }
-	);
-	//弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-	{
-		bullet->Update();
-	}
+	////デスフラグの立った弾を削除
+	//bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
+	//	{return bullet->IsDead(); }
+	//);
+	////弾更新
+	//for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	//{
+	//	bullet->Update();
+	//}
 
 	//行列更新
 	worldTransformUpdate(&worldTransform_);
@@ -60,10 +60,10 @@ void Enemy::Roll()
 void Enemy::Draw(ViewProjection viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	/*for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 	{
 		bullet->Draw(viewProjection);
-	}
+	}*/
 }
 
 void Enemy::Attack()
@@ -82,8 +82,8 @@ void Enemy::Attack()
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity2);
 
-	//弾を登録する
-	bullets_.push_back(std::move(newBullet));
+	////弾を登録する
+	//bullets_.push_back(std::move(newBullet));
 }
 
 void Enemy::PhaseManager()
