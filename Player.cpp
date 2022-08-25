@@ -17,6 +17,12 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 
 void Player::Update()
 {
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+
 	Move();
 	Rotate();
 	Attack();
@@ -25,6 +31,7 @@ void Player::Update()
 	{
 		bullet->Update();
 	}
+
 	worldTransformUpdate(&worldTransform_);
 }
 
@@ -83,9 +90,13 @@ void Player::Attack()
 {
 	if (input_->TriggerKey(DIK_SPACE))
 	{
+		Vector3 velocity(0.0f, 0.0f, kBulletSpead);
+		//速度ベクトルを自機の向きに合わせて回転する
+		worldTransformRoll(&velocity, &worldTransform_);
+
 		//弾を生成し初期化
 		std::unique_ptr<PlayerBullet>newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));

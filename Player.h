@@ -39,5 +39,6 @@ private:
 	float scaleSpeed = 0.1;
 	//’e
 	std::list<std::unique_ptr<PlayerBullet>>bullets_;
+	const float kBulletSpead = 1.0f;	//’e‚Ì‘¬“x
 };
 

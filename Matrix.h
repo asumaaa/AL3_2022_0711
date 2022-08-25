@@ -10,4 +10,5 @@ void worldTransformUpdate(WorldTransform* worldTransform_);
 void worldTransformScale(Vector3* vector_, WorldTransform* worldTransform_);
 void worldTransformMove(Vector3* vector_, WorldTransform* worldTransform_);
 void worldTransformRoll(Vector3* vector_, WorldTransform* worldTransform_);
+void vecWorldTransform(Vector3* vector_, WorldTransform* worldTransform_);
 

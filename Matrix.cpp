@@ -60,6 +60,13 @@ void worldTransformRoll(Vector3* vector_, WorldTransform* worldTransform_)
 	vector_->z = vec.x * matRotZ.m[0][2] + vec.y * matRotZ.m[1][2] + vec.z * matRotZ.m[2][2];
 }
 
+void vecWorldTransform(Vector3* vector_, WorldTransform* worldTransform_)
+{
+	worldTransformScale(vector_, worldTransform_);
+	worldTransformRoll(vector_, worldTransform_);
+	worldTransformMove(vector_, worldTransform_);
+}
+
 void worldTransformUpdate(WorldTransform* worldTransform_)
 {
 	worldTransform_->matWorld_ = {
