@@ -9,6 +9,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Matrix.h"
+#include "PlayerBullet.h"
+#define PI 3.141592653589
 
 class Player
 {
@@ -16,6 +18,8 @@ public:
 	void Initialize(Model* model,uint32_t textureHandle);
 	void Update();
 	void Move();
+	void Rotate();
+	void Attack();
 	void Draw(ViewProjection viewProjection);
 private:
 	WorldTransform worldTransform_;
@@ -31,6 +35,7 @@ private:
 	float moveSpeed = 0.5;
 	float rollSpeed = 0.02;
 	float scaleSpeed = 0.1;
-
+	//’e
+	PlayerBullet* bullets_ = nullptr;
 };
 

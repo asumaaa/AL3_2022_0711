@@ -18,25 +18,32 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 void Player::Update()
 {
 	Move();
+	Rotate();
+	Attack();
+
+	if (bullets_)
+	{
+		bullets_->Update();
+	}
 	worldTransformUpdate(&worldTransform_);
 }
 
 void Player::Move()
 {
 	//arowƒL[‚©ADSW‚ÅˆÚ“®
-	if (input_->PushKey(DIK_LEFT) || input_->PushKey(DIK_A))
+	if (input_->PushKey(DIK_LEFT) )
 	{
 		move.x -= moveSpeed;
 	}
-	if (input_->PushKey(DIK_RIGHT) || input_->PushKey(DIK_D))
+	if (input_->PushKey(DIK_RIGHT))
 	{
 		move.x += moveSpeed;
 	}
-	if (input_->PushKey(DIK_DOWN) || input_->PushKey(DIK_S))
+	if (input_->PushKey(DIK_DOWN))
 	{
 		move.y -= moveSpeed;
 	}
-	if (input_->PushKey(DIK_UP) || input_->PushKey(DIK_W))
+	if (input_->PushKey(DIK_UP))
 	{
 		move.y += moveSpeed;
 	}
@@ -49,9 +56,49 @@ void Player::Move()
 	worldTransform_.translation_ = move;
 }
 
+void Player::Rotate()
+{
+	//ASDWƒL[‚Å‰ñ“]
+	if (input_->PushKey(DIK_A))
+	{
+		roll.y -= rollSpeed;
+	}
+	if (input_->PushKey(DIK_D))
+	{
+		roll.y += rollSpeed;
+	}
+	if (input_->PushKey(DIK_W))
+	{
+		roll.x -= rollSpeed;
+	}
+	if (input_->PushKey(DIK_S))
+	{
+		roll.x += rollSpeed;
+	}
+
+	worldTransform_.rotation_ = roll;
+}
+
+void Player::Attack()
+{
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		//’e‚ð¶¬‚µ‰Šú‰»
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+
+		//’e‚ð“o˜^‚·‚é
+		bullets_ = newBullet;
+	}
+}
+
 void Player::Draw(ViewProjection viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (bullets_)
+	{
+		bullets_->Draw(viewProjection);
+	}
 }
 
 
