@@ -21,9 +21,9 @@ void Player::Update()
 	Rotate();
 	Attack();
 
-	if (bullets_)
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
-		bullets_->Update();
+		bullet->Update();
 	}
 	worldTransformUpdate(&worldTransform_);
 }
@@ -84,20 +84,19 @@ void Player::Attack()
 	if (input_->TriggerKey(DIK_SPACE))
 	{
 		//’e‚ğ¶¬‚µ‰Šú‰»
-		PlayerBullet* newBullet = new PlayerBullet();
+		std::unique_ptr<PlayerBullet>newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		//’e‚ğ“o˜^‚·‚é
-		bullets_ = newBullet;
+		bullets_.push_back(std::move(newBullet));
 	}
 }
 
 void Player::Draw(ViewProjection viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	if (bullets_)
-	{
-		bullets_->Draw(viewProjection);
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Draw(viewProjection);
 	}
 }
 

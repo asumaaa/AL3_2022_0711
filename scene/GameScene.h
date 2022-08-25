@@ -59,7 +59,8 @@ class GameScene {
 	ViewProjection viewProjection_;
 
 	//プレイヤー
-	Player* player_ = nullptr;
+	/*Player* player_ = nullptr;*/
+	std::unique_ptr<Player> player_;
 
 	/// <summary>
 	/// ゲームシーン用

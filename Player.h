@@ -9,6 +9,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Matrix.h"
+#include "memory"
+#include "list"
 #include "PlayerBullet.h"
 #define PI 3.141592653589
 
@@ -36,6 +38,6 @@ private:
 	float rollSpeed = 0.02;
 	float scaleSpeed = 0.1;
 	//’e
-	PlayerBullet* bullets_ = nullptr;
+	std::list<std::unique_ptr<PlayerBullet>>bullets_;
 };
 

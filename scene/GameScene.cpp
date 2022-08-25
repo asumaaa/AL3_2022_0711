@@ -9,7 +9,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-	delete player_;
+	delete model_;
 }
 
 void GameScene::Initialize() {
@@ -28,8 +28,9 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	//自キャラ
-	player_ = new Player();
-	player_->Initialize(model_,textureHandle_);
+	Player* newPlayer = new Player();
+	newPlayer->Initialize(model_, textureHandle_);
+	player_.reset(newPlayer);
 }
 
 void GameScene::Update()
