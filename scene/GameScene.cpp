@@ -31,11 +31,17 @@ void GameScene::Initialize() {
 	Player* newPlayer = new Player();
 	newPlayer->Initialize(model_, textureHandle_);
 	player_.reset(newPlayer);
+
+	//敵キャラ
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize(model_);
+	enemy_.reset(newEnemy);
 }
 
 void GameScene::Update()
 {
 	player_->Update();
+	enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -66,6 +72,7 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

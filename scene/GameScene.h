@@ -12,6 +12,7 @@
 #include "DebugCamera.h"
 #include "Matrix.h"
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -59,8 +60,10 @@ class GameScene {
 	ViewProjection viewProjection_;
 
 	//プレイヤー
-	/*Player* player_ = nullptr;*/
 	std::unique_ptr<Player> player_;
+
+	//敵
+	std::unique_ptr<Enemy>enemy_;
 
 	/// <summary>
 	/// ゲームシーン用
