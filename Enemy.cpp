@@ -19,6 +19,7 @@ void Enemy::Update()
 {
 	Move();
 	Rotate();
+	PhaseManager();
 	worldTransformUpdate(&worldTransform_);
 }
 
@@ -29,9 +30,38 @@ void Enemy::Draw(ViewProjection viewProjection)
 
 void Enemy::Move()
 {
-	worldTransform_.translation_.z -= 0.2f;
 }
 
 void Enemy::Rotate()
 {
+}
+
+void Enemy::PhaseManager()
+{
+	switch (phase_)
+	{
+	case Phase::Approach:
+		Approach();
+		if (worldTransform_.translation_.z <= -20)
+		{
+			phase_ = Phase::Leave;
+		}
+		break;
+	case Phase::Leave:
+		Leave();
+		if (worldTransform_.translation_.z >= 20)
+		{
+			phase_ = Phase::Approach;
+		}
+	}
+}
+
+void Enemy::Approach()
+{
+	worldTransform_.translation_.z -= 0.2f;
+}
+
+void Enemy::Leave()
+{
+	worldTransform_.translation_.z += 0.2f;
 }

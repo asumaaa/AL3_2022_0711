@@ -21,10 +21,20 @@ public:
 	void Draw(ViewProjection viewProjection);
 	void Move();
 	void Rotate();
+	void PhaseManager();
+	void Approach();
+	void Leave();
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Input* input_ = nullptr;
+	//行動フェーズ
+	enum class Phase
+	{
+		Approach,
+		Leave,
+	};
+	Phase phase_ = Phase::Approach;
 };
 
