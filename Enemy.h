@@ -21,7 +21,6 @@ public:
 	void Draw(ViewProjection viewProjection);
 	void Move();
 	void Rotate();
-	void PhaseManager();
 	void Approach();
 	void Leave();
 private:
@@ -35,8 +34,8 @@ private:
 		Approach,
 		Leave,
 	};
-	Phase phase_ = Phase::Approach;
+	size_t phase_ = static_cast<size_t>(Phase::Approach);
 	//メンバ関数のポインタテーブル
-	static void (Enemy::*Phase[])();
+	static void (Enemy::*Phase_[])();
 };
 

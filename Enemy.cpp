@@ -15,11 +15,17 @@ void Enemy::Initialize(Model* model)
 	worldTransform_.translation_ = Vector3(10, 10, 20);
 }
 
+void (Enemy::* Enemy::Phase_[])() =
+{
+	&Enemy::Approach,
+	&Enemy::Leave
+};
+
 void Enemy::Update()
 {
 	Move();
 	Rotate();
-	PhaseManager();
+	(this->*Phase_[phase_])();
 	worldTransformUpdate(&worldTransform_);
 }
 
@@ -36,32 +42,22 @@ void Enemy::Rotate()
 {
 }
 
-void Enemy::PhaseManager()
-{
-	switch (phase_)
-	{
-	case Phase::Approach:
-		Approach();
-		if (worldTransform_.translation_.z <= -20)
-		{
-			phase_ = Phase::Leave;
-		}
-		break;
-	case Phase::Leave:
-		Leave();
-		if (worldTransform_.translation_.z >= 20)
-		{
-			phase_ = Phase::Approach;
-		}
-	}
-}
-
 void Enemy::Approach()
 {
 	worldTransform_.translation_.z -= 0.2f;
+	//一定の座標で離脱フェーズへ移行
+	if (worldTransform_.translation_.z <= -20)
+	{
+		phase_ = static_cast<size_t>(Phase::Leave);
+	}
 }
 
 void Enemy::Leave()
 {
 	worldTransform_.translation_.z += 0.2f;
+	//一定の座標で接近フェーズへ移行
+	if (worldTransform_.translation_.z >= 20)
+	{
+		phase_ = static_cast<size_t>(Phase::Approach);
+	}
 }
