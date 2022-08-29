@@ -36,5 +36,7 @@ private:
 		Leave,
 	};
 	Phase phase_ = Phase::Approach;
+	//メンバ関数のポインタテーブル
+	static void (Enemy::*Phase[])();
 };
 
