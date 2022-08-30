@@ -11,6 +11,7 @@
 #include "Matrix.h"
 #include "memory"
 #include "list"
+#include "EnemyBullet.h"
 #define PI 3.141592653589
 
 class Enemy
@@ -21,8 +22,12 @@ public:
 	void Draw(ViewProjection viewProjection);
 	void Move();
 	void Rotate();
+	//フェーズ
 	void Approach();
+	void ApproachInitialize();
 	void Leave();
+	void LeaveInitialize();
+	void Fire();
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -37,5 +42,12 @@ private:
 	size_t phase_ = static_cast<size_t>(Phase::Approach);
 	//メンバ関数のポインタテーブル
 	static void (Enemy::*Phase_[])();
+	//弾
+	std::list<std::unique_ptr<EnemyBullet>>bullets_;
+	const float kBulletSpead = 1.0f;	//弾の速度
+
+	//発射間隔
+	static const int kFireInterval = 60.0f;
+	int32_t bulletTimer = 0;
 };
 
