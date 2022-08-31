@@ -95,9 +95,13 @@ void Enemy::Leave()
 void Enemy::Fire()
 {
 	
-	Vector3 velocity(0.0f, 0.0f, -0.5f);
-	//速度ベクトルを自機の向きに合わせて回転する
-	/*worldTransformRoll(&velocity, &worldTransform_);*/
+	//敵とプレイヤーの差分ベクトルを取得
+	Vector3 velocity;
+	velocity.x = player_->GetTransration().x - GetTransration().x;
+	velocity.y = player_->GetTransration().y - GetTransration().y;
+	velocity.z = player_->GetTransration().z - GetTransration().z;
+	//ベクトルの長さを速さに合わせる
+	Vector3 velocity2(vector3Normalize(velocity).x * bulletSpeed, vector3Normalize(velocity).y * bulletSpeed, vector3Normalize(velocity).z * bulletSpeed);
 
 	//弾を生成し初期化
 	std::unique_ptr<EnemyBullet>newBullet = std::make_unique<EnemyBullet>();

@@ -36,6 +36,7 @@ void GameScene::Initialize() {
 	Enemy* newEnemy = new Enemy();
 	newEnemy->Initialize(model_);
 	enemy_.reset(newEnemy);
+	enemy_->SetPlayer(player_);
 }
 
 void GameScene::Update()

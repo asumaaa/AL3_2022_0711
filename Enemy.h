@@ -14,6 +14,8 @@
 #include "EnemyBullet.h"
 #define PI 3.141592653589
 
+class Player;
+
 class Enemy
 {
 public:
@@ -27,7 +29,10 @@ public:
 	void ApproachInitialize();
 	void Leave();
 	void LeaveInitialize();
+	//攻撃
 	void Fire();
+	//セッター
+	void SetPlayer(Player*player) { player_=player; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -49,5 +54,8 @@ private:
 	//発射間隔
 	static const int kFireInterval = 60.0f;
 	int32_t bulletTimer = 0;
+
+	//自キャラ
+	Player * player_;
 };
 
